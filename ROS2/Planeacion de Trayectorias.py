@@ -7,12 +7,12 @@ theta_2=0
 theta_3=0
 theta_4=0
 
-q=[theta_0, theta_1, theta_2, theta_3, theta_4]
+q=np.array([theta_0, theta_1, theta_2, theta_3, theta_4])
 
 t_final = 5.0    # tiempo máximo
-dt = 0.02        # paso de tiempo
+dt = 0.2       # paso de tiempo
 
-Ve=np.array([0.01,0,0,0,0,0])  # Velocidad en x,y,z,phi,theta
+Ve=np.array([10,10,10,0,0,0])  # Velocidad en x,y,z,phi,theta
 
 def J(t0, t1, t2, t3, t4):
     
@@ -78,8 +78,14 @@ for t in np.arange(0, t_final + dt, dt):  # incluye el último valor
     
     J_pseudo=np.linalg.pinv(J(q[0], q[1], q[2], q[3], q[4]))
     Velocidades= J_pseudo @ Ve
-    q = q + J_pseudo @ Velocidades * dt    
-    print(Velocidades)
+    q = q + Velocidades * dt    
     
-
+    # # aplicar límites
+    # q_min = np.radians([-180, -90, -120, -180, -180])  # ejemplo
+    # q_max = np.radians([180, 90, 120, 180, 180])
+    # q = np.clip(q, q_min, q_max)
+    
+    print("Velocidades: ", Velocidades)
+    
+print("Posiciones finales: ", q)
 
