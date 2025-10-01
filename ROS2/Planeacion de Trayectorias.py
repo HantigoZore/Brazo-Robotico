@@ -7,7 +7,14 @@ theta_2=0
 theta_3=0
 theta_4=0
 
-def Jacobiano(t0, t1, t2, t3, t4):
+q=[theta_0, theta_1, theta_2, theta_3, theta_4]
+
+t_final = 5.0    # tiempo máximo
+dt = 0.02        # paso de tiempo
+
+Ve=np.array([0.01,0,0,0,0,0])  # Velocidad en x,y,z,phi,theta
+
+def J(t0, t1, t2, t3, t4):
     
     a1=0.0088*c(t1+t2-t3-t4)
     a2=0.0088*c(t1+t2-t3+t4)
@@ -54,10 +61,25 @@ def Jacobiano(t0, t1, t2, t3, t4):
     R64=0
     R65=c(t1+t2-t3)
     
+    # return np.array([
+    # [R11, R12, R13, R14, R15],
+    # [R21, R22, R23, R24, R25],
+    # [R31, R32, R33, R34, R35]])
+    
     return np.array([
     [R11, R12, R13, R14, R15],
     [R21, R22, R23, R24, R25],
-    [R31, R32, R33, R34, R35]])
+    [R31, R32, R33, R34, R35],
+    [R41, R42, R43, R44, R45],
+    [R51, R52, R53, R54, R55],
+    [R61, R62, R63, R64, R65]])
 
-print(Jacobiano(theta_0, theta_1, theta_2, theta_3, theta_4))
+for t in np.arange(0, t_final + dt, dt):  # incluye el último valor
+    
+    J_pseudo=np.linalg.pinv(J(q[0], q[1], q[2], q[3], q[4]))
+    Velocidades= J_pseudo @ Ve
+    q = q + J_pseudo @ Velocidades * dt    
+    print(Velocidades)
+    
+
 
