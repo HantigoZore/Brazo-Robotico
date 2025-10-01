@@ -57,9 +57,7 @@ def Jacobiano(t0, t1, t2, t3, t4):
     return np.array([
     [R11, R12, R13, R14, R15],
     [R21, R22, R23, R24, R25],
-    [R31, R32, R33, R34, R35],
-    [R41, R42, R43, R44, R45],
-    [R51, R52, R53, R54, R55],
-    [R61, R62, R63, R64, R65]])
+    [R31, R32, R33, R34, R35]])
 
 print(Jacobiano(theta_0, theta_1, theta_2, theta_3, theta_4))
+
